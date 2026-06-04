@@ -2,7 +2,7 @@
 
 A real-world appointment booking system built for freelancers. Customers book a slot, and they instantly get a WhatsApp confirmation. An automatic reminder is also sent 1 hour before the appointment.
 
-**Live Demo → [vansh-appointments.vercel.app](https://vansh-appointments.vercel.app)**
+**Live Demo → [vansh-appointments.vercel.app](https://vansh-appointment-spwu.vercel.app/)**
 
 ---
 
