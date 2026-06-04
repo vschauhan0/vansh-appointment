@@ -1,0 +1,245 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --accent: #1A1A2E;
+  --green: #4A7C59;
+  --green-light: #EAF3DE;
+  --green-text: #3B6D11;
+  --muted: #8A8880;
+  --border: #E2DDD6;
+  --text: #1A1A1E;
+  --text-light: #6B6864;
+  --warn-bg: #FAEEDA;
+  --warn-text: #854F0B;
+  --blue-bg: #E6F1FB;
+  --blue-text: #185FA5;
+  --red: #E24B4A;
+  --red-bg: #FCEBEB;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* Header */
+header {
+  background: var(--accent);
+  color: #fff;
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: #fff;
+  flex-shrink: 0;
+}
+header h1 { font-family: 'DM Serif Display', serif; font-size: 21px; font-weight: 400; }
+header p { font-size: 13px; opacity: 0.55; margin-top: 2px; }
+.online-dot {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 7px;
+  font-size: 13px; opacity: 0.7;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; }
+
+/* Layout */
+.layout {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 28px;
+  max-width: 1080px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+@media (max-width: 780px) {
+  .layout { grid-template-columns: 1fr; padding: 0 16px; }
+  header { padding: 20px 20px; }
+  .online-dot { display: none; }
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px;
+}
+.card-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 17px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: var(--text);
+  display: flex; align-items: center; gap: 9px;
+}
+
+/* Form */
+.field { margin-bottom: 16px; }
+label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+  margin-bottom: 6px;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+  -webkit-appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--green);
+  background: #fff;
+}
+input[type="datetime-local"] { cursor: pointer; }
+textarea { resize: vertical; min-height: 76px; line-height: 1.5; }
+
+.phone-row { display: flex; }
+.prefix {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: 9px 0 0 9px;
+  background: var(--bg);
+  font-size: 14px;
+  color: var(--text-light);
+  white-space: nowrap;
+  display: flex; align-items: center;
+}
+.phone-row input { border-radius: 0 9px 9px 0; }
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  margin-top: 4px;
+}
+.btn:hover:not(:disabled) { opacity: 0.85; }
+.btn:active:not(:disabled) { transform: scale(0.99); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Alerts */
+.alert {
+  margin-top: 14px;
+  padding: 12px 15px;
+  border-radius: 9px;
+  font-size: 13px;
+  line-height: 1.5;
+  display: none;
+}
+.alert.success { background: var(--green-light); color: var(--green-text); border: 1px solid #C0DD97; }
+.alert.error { background: var(--red-bg); color: var(--red); border: 1px solid #F7C1C1; }
+
+/* Dashboard */
+.dash-top {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.count-badge {
+  font-size: 12px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 20px;
+  padding: 2px 10px;
+}
+.icon-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s;
+}
+.icon-btn:hover { background: var(--bg); }
+
+.empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Appointment rows */
+.appt-list { display: flex; flex-direction: column; gap: 10px; max-height: 580px; overflow-y: auto; }
+.appt-card {
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: start;
+  transition: border-color 0.15s;
+}
+.appt-card:hover { border-color: #c5c1bb; }
+.appt-card.soon { border-left: 3px solid #EF9F27; }
+.appt-card.past { opacity: 0.5; }
+
+.appt-name { font-weight: 500; font-size: 14px; }
+.appt-phone { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.appt-note { font-size: 12px; color: var(--text-light); margin-top: 4px; font-style: italic; }
+
+.appt-right { text-align: right; }
+.appt-date { font-size: 11px; color: var(--muted); }
+.appt-time { font-size: 13px; font-weight: 500; }
+
+.tag {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+.tag-upcoming { background: var(--green-light); color: var(--green-text); }
+.tag-soon { background: var(--warn-bg); color: var(--warn-text); }
+.tag-past { background: #F1EFE8; color: #5F5E5A; }
+.tag-reminded { background: var(--blue-bg); color: var(--blue-text); }
+
+.del {
+  margin-top: 6px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 15px;
+  padding: 2px 4px;
+  border-radius: 5px;
+  transition: color 0.15s, background 0.15s;
+  display: block;
+}
+.del:hover { color: var(--red); background: var(--red-bg); }
+
+.loading { text-align: center; padding: 28px; color: var(--muted); font-size: 14px; }
