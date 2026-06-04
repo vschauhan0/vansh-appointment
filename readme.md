@@ -40,7 +40,7 @@ A real-world appointment booking system built for freelancers. Customers book a 
 | Database | Supabase (Postgres) |
 | WhatsApp | Twilio API |
 | Hosting | Vercel |
-| Auto reminders | Vercel Cron Jobs (every 5 min) |
+| Auto reminders | Cornjobs.com Cron Jobs (every 5 min) |
 
 ---
 
