@@ -1,140 +1,59 @@
-# Vansh Chauhan — Appointment System Setup Guide
+# Vansh Chauhan — Appointment Booking System
 
-Follow these steps exactly. Takes ~30 minutes total.
+A real-world appointment booking system built for freelancers. Customers book a slot, and they instantly get a WhatsApp confirmation. An automatic reminder is also sent 1 hour before the appointment.
 
----
-
-## Step 1 — Supabase (Database)
-
-1. Go to https://supabase.com → Sign up (free)
-2. Click **New Project** → give it a name → set a DB password → Create
-3. Wait ~2 minutes for it to boot
-4. Go to **SQL Editor** (left sidebar) → click **New Query**
-5. Paste and run this SQL:
-
-```sql
-create table appointments (
-  id uuid default gen_random_uuid() primary key,
-  customer_name text not null,
-  phone text not null,
-  appointment_time timestamptz not null,
-  note text,
-  confirmation_sent boolean default false,
-  reminder_sent boolean default false,
-  created_at timestamptz default now()
-);
-```
-
-6. Go to **Project Settings → API**
-7. Copy:
-   - **Project URL** → this is your `SUPABASE_URL`
-   - **anon / public key** → this is your `SUPABASE_ANON_KEY`
+**Live Demo → [vansh-appointments.vercel.app](https://vansh-appointments.vercel.app)**
 
 ---
 
-## Step 2 — Twilio WhatsApp (Messaging)
+## What happens when you book
 
-1. Go to https://www.twilio.com → Sign up (free trial gives ~$15 credit)
-2. After signup, go to your **Console Dashboard**
-3. Copy:
-   - **Account SID** → `TWILIO_ACCOUNT_SID`
-   - **Auth Token** → `TWILIO_AUTH_TOKEN`
-
-### Enable WhatsApp Sandbox:
-4. In the left sidebar go to **Messaging → Try it out → Send a WhatsApp message**
-5. Follow the instructions: send a WhatsApp message like `join <your-sandbox-word>` to `+1 415 523 8886`
-6. Once joined, your `TWILIO_WHATSAPP_FROM` is: `whatsapp:+14155238886`
-
-> Note: The sandbox only works for numbers that have joined it (for testing).
-> For production, you'll need to apply for a WhatsApp Business sender — takes 1-2 days via Twilio.
+1. Fill in your name, WhatsApp number, date & time
+2. Click **Book & send WhatsApp confirmation**
+3. Your appointment is saved to the database instantly
+4. You get a real WhatsApp message on your phone confirming the booking
+5. 1 hour before your appointment, you get another WhatsApp reminder automatically
 
 ---
 
-## Step 3 — Set up .env locally
+## To test it yourself
 
-Copy `.env.example` to `.env` and fill in your values:
+> Before booking, you need to activate WhatsApp once (this is only needed for the sandbox/testing version — real production deployment skips this step)
 
-```
-SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
-SUPABASE_ANON_KEY=eyJhbGci...
-TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-TWILIO_AUTH_TOKEN=your_auth_token_here
-TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
-PORT=3000
-```
-
----
-
-## Step 4 — Run locally to test
-
-```bash
-npm install
-npm run dev
-```
-
-Open http://localhost:3000 — book an appointment. Check your WhatsApp!
+1. Open WhatsApp on your phone
+2. Send this message to **+1 415 523 8886**:
+   ```
+   join speech-many
+   ```
+3. You'll get a reply saying you're connected
+4. Now go to the live demo and book an appointment with your number
+5. You'll receive a WhatsApp message within seconds
 
 ---
 
-## Step 5 — Deploy to Vercel
+## Tech stack
 
-### 5a. Push to GitHub
-```bash
-git init
-git add .
-git commit -m "initial commit"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/vansh-appointments.git
-git push -u origin main
-```
-
-### 5b. Deploy on Vercel
-1. Go to https://vercel.com → Sign in with GitHub
-2. Click **Add New → Project**
-3. Import your `vansh-appointments` repo
-4. Click **Environment Variables** and add all 5 variables from your `.env` file
-5. Click **Deploy**
-
-Done! Vercel gives you a live URL like `https://vansh-appointments.vercel.app`
-
-### 5c. Verify cron is working
-- Go to your Vercel dashboard → your project → **Settings → Cron Jobs**
-- You should see the `/api/send-reminders` job running every 5 minutes
-- This automatically sends WhatsApp reminders for appointments within 1 hour
-
----
-
-## How it works
-
-| Action | What happens |
+| Layer | Tool |
 |---|---|
-| Book appointment | Saved to Supabase + WhatsApp confirmation sent immediately |
-| Appointment within 1 hour | Vercel cron fires `/api/send-reminders` every 5 min → WhatsApp reminder sent |
-| Dashboard | Auto-refreshes every 30 seconds from the database |
+| Frontend | HTML, CSS, JavaScript |
+| Backend | Node.js + Express |
+| Database | Supabase (Postgres) |
+| WhatsApp | Twilio API |
+| Hosting | Vercel |
+| Auto reminders | Vercel Cron Jobs (every 5 min) |
 
 ---
 
-## File structure
+## Features
 
-```
-vansh-appointments/
-├── public/
-│   └── index.html       ← frontend (booking form + dashboard)
-│   ├── script.js        ← javascript for backend
-│   └── sttyle.css       ← Stylesheet
-├── lib/
-│   ├── supabase.js      ← database client
-│   └── whatsapp.js      ← Twilio WhatsApp helper + message templates
-├── server.js            ← Express API (all routes)
-├── vercel.json          ← Vercel config + cron schedule
-├── package.json
-```
+- Book appointments with name, phone, date/time and a note
+- Real WhatsApp confirmation message sent instantly on booking
+- Automatic WhatsApp reminder 1 hour before the appointment
+- Live dashboard showing all appointments with status tags
+- Appointments marked as — Upcoming, Within 1 hour, Reminder sent, Past
+- Delete appointments from the dashboard
+- Dashboard auto-refreshes every 30 seconds
 
-## API routes
+---
 
-```
-POST   /api/appointments        → create appointment + send confirmation
-GET    /api/appointments        → list all appointments
-DELETE /api/appointments/:id    → delete one appointment
-POST   /api/send-reminders      → called by Vercel cron every 5 min
-```
+*Built by Vansh Chauhan*
